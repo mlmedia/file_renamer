@@ -7,15 +7,15 @@ $get_action	= filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
 if ( $get_action == 'db' )
 {
 	/* connect to the DB */
-	try 
+	try
 	{
-		$database	= 'nytownsdev';
-		$username 	= 'root';
-		$password 	= '';
+		$database	= 'my_database';
+		$username 	= 'mysql_user';
+		$password 	= 'myPassword123';
 		$conn 		= new PDO( 'mysql:host=localhost;dbname=' . $database, $username, $password );
 		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-	} 
-	catch( PDOException $e ) 
+	}
+	catch( PDOException $e )
 	{
 		echo 'ERROR: ' . $e->getMessage( );
 		$conn = false;
@@ -25,8 +25,8 @@ if ( $get_action == 'db' )
 	{
 		/* get the records */
 		$data = $conn->query( 'SELECT * FROM dcms_file_managed' );
-	 
-		foreach( $data as $row ) 
+
+		foreach( $data as $row )
 		{
 			$new_uri 	= rename_file_path( $row[ 'uri' ], true );
 			$new_fn		= rename_file_path( $row[ 'filename' ] );
@@ -53,9 +53,9 @@ else
 	$dhandle 	= opendir( $dir );
 	$old_files 	= array( );
 
-	if ( $dhandle ) 
+	if ( $dhandle )
 	{
-		while (false !== ( $fname = readdir( $dhandle ) ) ) 
+		while (false !== ( $fname = readdir( $dhandle ) ) )
 		{
 			if ( ( $fname != '.' ) && ( $fname != '..' ) && ! is_dir( './' . $fname ) )
 			{
@@ -74,7 +74,7 @@ else
 }
 
 /**
- * reusable file renaming function 
+ * reusable file renaming function
  */
 function rename_file_path( $input = null, $full_path = false )
 {
@@ -86,7 +86,7 @@ function rename_file_path( $input = null, $full_path = false )
 		$dirname	= str_replace( $filename . '.' . $ext, '', $input );
 		$new_name 	= str_replace( '\'', '', strtolower( $filename ) ); /* apostrophes to spaces - lone exception to an underscore since "that_s_" looks bad */
 		$new_name 	= str_replace( ' ', '_', strtolower( $new_name ) );
-		$new_name 	= preg_replace( '/[^a-z0-9\_]+/i', '_', $new_name ); /* convert everything except case-insensitive alpha-numeric to underscores */ 
+		$new_name 	= preg_replace( '/[^a-z0-9\_]+/i', '_', $new_name ); /* convert everything except case-insensitive alpha-numeric to underscores */
 		for ( $i=0;$i<3;$i++ )
 		{
 			$new_name 	= str_replace( '__', '_', $new_name );
