@@ -24,41 +24,35 @@ if ( $get_action == 'db' )
 	if ( $conn )
 	{
 		/* get the records */
-		$data = $conn->query( 'SELECT * FROM dcms_file_managed' );
+		$data = $conn->query( 'SELECT * FROM files_table' );
 
 		foreach( $data as $row )
 		{
-			$new_uri 	= rename_file_path( $row[ 'uri' ], true );
-			$new_fn		= rename_file_path( $row[ 'filename' ] );
-			$stmt 		= $conn->prepare( 'UPDATE dcms_file_managed SET uri = :uri, filename = :filename WHERE fid = :fid' );
+			$new_uri = rename_file_path( $row[ 'uri' ], true );
+			$new_fn = rename_file_path( $row[ 'filename' ] );
+			$stmt = $conn->prepare( 'UPDATE files_table SET uri = :uri, filename = :filename WHERE id = :id' );
 			$stmt->execute(
 				array(
-					':fid'  	=> $row[ 'fid' ],
-					':uri' 		=> $new_uri,
+					':id' => $row[ 'id' ],
+					':uri' => $new_uri,
 					':filename'	=> $new_fn
 				)
 			);
 			echo 'URI -> ' . $new_uri . "\n<br />";
 		}
 	}
-}
-
-/* otherwise, run the file renamer on the files in the current directory */
-else
-{
+} else { /* otherwise, run the file renamer on the files in the current directory */
 	/**
 	 * file renamer - to comply with Amazon S3 policies against spaces in filenames
 	 */
-	$dir 		= './';
-	$dhandle 	= opendir( $dir );
-	$old_files 	= array( );
+	$dir = './';
+	$dhandle = opendir( $dir );
+	$old_files = array( );
 
 	if ( $dhandle )
 	{
-		while (false !== ( $fname = readdir( $dhandle ) ) )
-		{
-			if ( ( $fname != '.' ) && ( $fname != '..' ) && ! is_dir( './' . $fname ) )
-			{
+		while (false !== ( $fname = readdir( $dhandle ) ) ) {
+			if ( ( $fname != '.' ) && ( $fname != '..' ) && ! is_dir( './' . $fname ) ){
 				$old_files[ ] = $fname;
 			}
 		}
