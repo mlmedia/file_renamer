@@ -1,13 +1,13 @@
 <?php
 
 /* get the requested action */
-$get_actio n= filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
+$get_action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
 
 /* if the query string has action=db */
 if ( $get_action == 'db' ) {
 	/* connect to the DB */
 	try {
-		$database= 'my_database';
+		$database = 'my_database';
 		$username = 'mysql_user';
 		$password = 'myPassword123';
 		$conn = new PDO( 'mysql:host=localhost;dbname=' . $database, $username, $password );
@@ -29,7 +29,7 @@ if ( $get_action == 'db' ) {
 				array(
 					':id' => $row[ 'id' ],
 					':uri' => $new_uri,
-					':filename'=> $new_fn
+					':filename' => $new_fn
 				)
 			);
 			echo 'URI -> ' . $new_uri . "\n<br />";
