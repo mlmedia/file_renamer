@@ -1,23 +1,52 @@
-/.buildpath
-/build/
-*/archive/
+### GENERIC GITIGNORE
 
-__MACOSX
-.DS_Store
+### Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.map
 
-.project
-.settings
-.classpath
-.sass-cache/
+### Packages
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
 
-# OS generated files #
-######################
-*/.DS_Store
+### Logs and databases
+*.log
+*.sql
+*.sqlite
+
+### OS generated files
 .DS_Store
 .DS_Store?
 ._*
-.Spotlight-V100
 .Trashes
-Icon?
 ehthumbs.db
-Thumbs.db
+Thumbs.dbi
+thumbs.db
+__MACOSX
+
+### Other caches / temp files / IDE config
+.sass-cache
+.ctrlp
+.project
+.settings
+.classpath
+.vagrant
+
+### Package / dependency managers
+node_modules
+bower_components
+
+### Config files with sensitive data
+.env
